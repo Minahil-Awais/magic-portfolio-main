@@ -56,10 +56,6 @@ export default async function RootLayout({
                  const root = document.documentElement;
                  const defaultTheme = 'dark';
         
-                 // 1. Force dark theme immediately
-                 root.setAttribute('data-theme', 'dark');
-                 localStorage.setItem('data-theme', 'dark');
-        
                  // 2. Set the UI configuration
                  const config = ${JSON.stringify({
                    brand: style.brand,
@@ -74,25 +70,40 @@ export default async function RootLayout({
                    "viz-style": dataStyle.variant,
                   })};
         
+                 // Apply default values
                  Object.entries(config).forEach(([key, value]) => {
                    root.setAttribute('data-' + key, value);
-                  });
+                 });
 
-                 // 3. Overwrite any saved style overrides
-                  Object.keys(config).forEach(key => {
-                  const savedValue = localStorage.getItem('data-' + key);
-                   if (savedValue) {
-                     root.setAttribute('data-' + key, savedValue);
-                   }
+                 // Resolve theme
+                  const resolveTheme = (themeValue) => {
+                    if (!themeValue || themeValue === 'dark') {
+                     return window.matchMedia('(prefers-color-scheme: dark)'). matches ? 'dark' : 'dark';
+                    }
+                    return themeValue;
+                  };
+
+                  // Apply saved theme
+                  const savedTheme = localStorage.getItem('data-theme');
+                  const resolvedTheme = resolveTheme(savedTheme);
+                  root.setAttribute('data-theme', resolvedTheme);
+
+                  // Apply any saved style overrides
+                  const styleKeys = Object.keys(config);
+                  styleKeys.forEach(key => {
+                   const value local storage.getItem('data-' + key);
+                   if(value) { 
+                     root.setAttribute('data-' + key, value);
+                    }
                   });
                 } catch (e) {
-                   console.error('Theme init failed:', e);
-                   document.documentElement.setAttribute('data-theme', 'dark');
+                 console.error('Theme init failed:', e);
+                 document.documentElement.setAttribute('data-theme', 'dark');
                 }
               })();
             `,
           }}
-        />
+       />
       </head>
       <Providers>
         <Column
