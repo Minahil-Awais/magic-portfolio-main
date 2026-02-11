@@ -47,51 +47,52 @@ export default async function RootLayout({
       )}
     >
       <head>
-<script
-  id="theme-init"
-  dangerouslySetInnerHTML={{
-    __html: `
-      (function() {
-        try {
-          const root = document.documentElement;
-          
-          // 1. Force dark theme immediately
-          root.setAttribute('data-theme', 'dark');
-          localStorage.setItem('data-theme', 'dark');
-          
-          // 2. Set the UI configuration
-          const config = ${JSON.stringify({
-            brand: style.brand,
-            accent: style.accent,
-            neutral: style.neutral,
-            solid: style.solid,
-            "solid-style": style.solidStyle,
-            border: style.border,
-            surface: style.surface,
-            transition: style.transition,
-            scaling: style.scaling,
-            "viz-style": dataStyle.variant,
-          })};
-          
-          Object.entries(config).forEach(([key, value]) => {
-            root.setAttribute('data-' + key, value);
-          });
+        <script
+          id="theme-init"
+          dangerouslySetInnerHTML={{
+            __html: `  
+              (function() {
+                try {
+                 const root = document.documentElement;
+                 const defaultTheme = 'dark';
+        
+                 // 1. Force dark theme immediately
+                 root.setAttribute('data-theme', 'dark');
+                 localStorage.setItem('data-theme', 'dark');
+        
+                 // 2. Set the UI configuration
+                 const config = ${JSON.stringify({
+                   brand: style.brand,
+                   accent: style.accent,
+                   neutral: style.neutral,
+                   solid: style.solid,
+                   "solid-style": style.solidStyle,
+                   border: style.border,
+                   surface: style.surface,
+                   transition: style.transition,
+                   scaling: style.scaling,
+                   "viz-style": dataStyle.variant,
+                  })};
+        
+                 Object.entries(config).forEach(([key, value]) => {
+                   root.setAttribute('data-' + key, value);
+                  });
 
-          // 3. Overwrite any saved style overrides from local storage
-          Object.keys(config).forEach(key => {
-            const savedValue = localStorage.getItem('data-' + key);
-            if (savedValue) {
-              root.setAttribute('data-' + key, savedValue);
-            }
-          });
-        } catch (e) {
-          console.error('Theme init failed:', e);
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      })();
-    `,
-  }}
-/>
+                 // 3. Overwrite any saved style overrides
+                  Object.keys(config).forEach(key => {
+                  const savedValue = localStorage.getItem('data-' + key);
+                   if (savedValue) {
+                     root.setAttribute('data-' + key, savedValue);
+                   }
+                  });
+                } catch (e) {
+                   console.error('Theme init failed:', e);
+                   document.documentElement.setAttribute('data-theme', 'dark');
+                }
+              })();
+            `,
+          }}
+        />
       </head>
       <Providers>
         <Column
