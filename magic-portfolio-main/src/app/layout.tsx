@@ -78,7 +78,7 @@ export default async function RootLayout({
                   
                   // Apply saved theme
                   root.setAttribute('data-theme', 'dark');
-                  root.setAttribute('data-theme', resolveTheme(defaultTheme));
+                  root.style.colorScheme = 'dark';
                   
                   // Apply any saved style overrides
                   const styleKeys = Object.keys(config);
