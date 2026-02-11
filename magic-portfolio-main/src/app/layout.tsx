@@ -37,6 +37,8 @@ export default async function RootLayout({
       as="html"
       lang="en"
       fillWidth
+      data-theme="dark"             // <--- ADD THIS
+      style={{ colorScheme: 'dark' }}
       className={classNames(
         fonts.heading.variable,
         fonts.body.variable,
@@ -52,7 +54,7 @@ export default async function RootLayout({
               (function() {
                 try {
                   const root = document.documentElement;
-                  const defaultTheme = 'system';
+                  const defaultTheme = 'dark';
                   
                   // Set defaults from config
                   const config = ${JSON.stringify({
@@ -70,15 +72,12 @@ export default async function RootLayout({
                   
                   // Apply default values
                   Object.entries(config).forEach(([key, value]) => {
-                    root.setAttribute('data-' + key, value);
+                    root.setAttribute('data-theme', 'dark');
                   });
                   
                   // Resolve theme
                   const resolveTheme = (themeValue) => {
-                    if (!themeValue || themeValue === 'system') {
-                      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                    }
-                    return themeValue;
+                    return 'dark';
                   };
                   
                   // Apply saved theme
