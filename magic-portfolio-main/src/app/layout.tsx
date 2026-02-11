@@ -77,7 +77,7 @@ export default async function RootLayout({
 
                  // Resolve theme
                   const resolveTheme = (themeValue) => {
-                    if (!themeValue || themeValue === 'dark') {
+                    if (!themeValue || themeValue === 'system') {
                      return window.matchMedia('(prefers-color-scheme: dark)'). matches ? 'dark' : 'light';
                     }
                     return themeValue;
