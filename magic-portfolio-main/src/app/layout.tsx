@@ -56,7 +56,7 @@ export default async function RootLayout({
                  const root = document.documentElement;
                  const defaultTheme = 'dark';
         
-                 // 2. Set the UI configuration
+                 // Set default from config
                  const config = ${JSON.stringify({
                    brand: style.brand,
                    accent: style.accent,
@@ -87,6 +87,7 @@ export default async function RootLayout({
                   const savedTheme = localStorage.getItem('data-theme');
                   const resolvedTheme = resolveTheme(savedTheme);
                   root.setAttribute('data-theme', resolvedTheme);
+                  root.setAttribute('data-theme', 'dark');
 
                   // Apply any saved style overrides
                   const styleKeys = Object.keys(config);
